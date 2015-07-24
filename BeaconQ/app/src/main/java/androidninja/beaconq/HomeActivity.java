@@ -142,7 +142,7 @@ public class HomeActivity extends Activity {
                         tbxTotalTime.setText("00:00");
                         tbxEndTime.setText("00:00");
                         orderStarted = true;
-                        setActivityBackgroundColor(Color.DKGRAY);
+                        setActivityBackgroundColor(Color.WHITE);
                     } else if (validBeacon.getSequenceNumber() == 2 && orderStarted) {
                         app.orderEndTime = new Date();
                         Date startDate = app.orderStartTime;
