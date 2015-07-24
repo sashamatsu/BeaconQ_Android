@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -21,10 +22,15 @@
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--<service-->
+            <!--android:enabled="true"-->
+            <!--android:name=".BeaconsMonitoringService">-->
+        <!--</service>-->
+
     </application>
 
 </manifest>
