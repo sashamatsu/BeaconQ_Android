@@ -41,6 +41,7 @@ public class HomeActivity extends Activity {
     private LinearLayout layout;
     PowerManager.WakeLock wl;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +55,6 @@ public class HomeActivity extends Activity {
         beaconManager = app.getInstance().getBeaconManager();
         setupRanging();
         orderStarted = false;
-
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
         wl.acquire();
@@ -142,6 +142,7 @@ public class HomeActivity extends Activity {
                         tbxTotalTime.setText("00:00");
                         tbxEndTime.setText("00:00");
                         orderStarted = true;
+                        setActivityBackgroundColor(Color.DKGRAY);
                     } else if (validBeacon.getSequenceNumber() == 2 && orderStarted) {
                         app.orderEndTime = new Date();
                         Date startDate = app.orderStartTime;
@@ -189,20 +190,25 @@ public class HomeActivity extends Activity {
 
         HashMap<String, Object> params = new HashMap<String, Object>();
 
-        try {
-            ParseCloud.callFunctionInBackground("averageWaitTime", params, new FunctionCallback<Double>() {
-                public void done(Double ratings, ParseException e) {
+
+            ParseCloud.callFunctionInBackground("averageWaitTime", params, new FunctionCallback<Object>() {
+                public void done(Object ratings, ParseException e) {
                     if (e == null) {
-                        long millis = ratings.intValue() * 1000;
+                        long millis =0;
+                        try {
+                            Integer result=(Integer) ratings;
+                         millis=result.intValue() * 1000;
+                        }catch (Exception ex){
+                            Double result=(Double) ratings;
+                            millis= result.intValue() * 1000;
+                        }
                         String avgText = toMinutesAndSecondsString(millis);
                         tbxAverage.setText(avgText);
                     }
                 }
             });
 
-        } catch (Exception ex) {
-            Log.e(TAG,ex.getMessage());
-        }
+
     }
 
     private void saveOrderTime(int seconds){
